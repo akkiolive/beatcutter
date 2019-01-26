@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BeatCutter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<script src="https://unpkg.com/wavesurfer.js"></script>
+	 <!-- plugins -->
+        <script src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.timeline.js"></script>
+        <script src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.regions.js"></script>
+        <script src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.minimap.js"></script>
+
+
+</head>
+<body class="bg-light">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">BeatCutter</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+	
+	
+	<form class="card p-2">
+		<div class="input-group">
+		  <input type="text" class="form-control" placeholder="Promo code">
+		  <div class="input-group-append">
+			<button type="submit" class="btn btn-secondary">Redeem</button>
+		  </div>
+		</div>
+	</form>
+	
+	<div class="container" style="display:none;">
+		<div class="row">
+			<div class="col-md-5">
+				<label>Row</label>
+				<input type="text" class="form-control"/>
+			</div>
+			<div class="col-md-5">
+				<label>Row</label>
+				<input type="text" class="form-control"/>
+			</div>
+			
+		</div>
+	</div>
+		
+    <canvas id="stage" style="margin:10px;"></canvas>
+	<canvas id="visualiser" style="margin:10px;"></canvas>
+	<canvas id="visualiser2" style="margin:10px;"></canvas>
+	<div id="waveform"></div>
+	<div id="waveform2"></div>
+	<div id="wave-timeline"></div>
+	
+	<div class="controls" style="text-align:center;">
+		<label>BPM</label><input type="text" id="bpm"></input>
+		<label>offset</label><input type="text" id="offset"></input>
+		<label>start</label><input type="text" id="start"></input>
+		<label>end</label><input type="text" id="end"></input>
+		<button id="tpmPlayBtn" class="btn btn-dark btn-sm"><span class="fa fa-play"></span></button>
+		<button id="createBtn" class="btn btn-dark btn-sm"><span class="fa fa-plus"></span></button><br />
+		<button id="btn" class="btn btn-outline-dark"><span class="fa fa-play"></span> Push me to play!</button>
+		<button id="btn2" class="btn btn-outline-dark">Puase and Resume</button>
+		<button id="btn3" class="btn btn-outline-dark">DRAWWWWWWWWWWWWWWWWWWWWWWWWWW</button>
+		<button id="btn4" class="btn btn-outline-dark">Metronome</button>
+	</div>
+	
+	<div class="row" id="debug" style="display:;">
+		<div class="col">
+			<label>context.currentTime:</label><span id="span1"></span><br />
+			<label>startTime:</label><span id="span2"></span><br />
+			<label>playTime:</label><span id="span3"></span><br />
+			<label>stopAt:</label><span id="span4"></span><br />
+			<label>bc.offset:</label><span id="span5"></span><br />
+		</div>
+		<div class="col">
+			<label>bpm:</label><span id="span21"></span><br />
+			<label>mpb:</label><span id="span22"></span><br />
+			<label>sbp:</label><span id="span23"></span><br />
+			<label>offset:</label><span id="span24"></span><br />
+		</div>
+	</div>
+	
+	<div id="playBoxes"></div>
+
+    <script src="main.js"></script>    
+</body>
+</html>
